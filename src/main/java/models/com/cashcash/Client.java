@@ -1,4 +1,4 @@
-package com.cashcash;
+package models.com.cashcash;
 
 import java.util.ArrayList;
 
@@ -19,6 +19,10 @@ public class Client {
 
         this.dureeDeplacement = dureeDeplacement;
         this.distanceKm = distanceKm;
+    }
+
+    public ArrayList<Materiel> getMateriels() {
+        return lesMateriels;
     }
 
     public int getId() {

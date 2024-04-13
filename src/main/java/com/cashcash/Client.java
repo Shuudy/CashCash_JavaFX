@@ -1,8 +1,12 @@
 package com.cashcash;
 
+import java.util.ArrayList;
+
 public class Client {
-    String raisonSociale, siren, codeApe, adresse, telClient, email;
-    int numClient, dureeDeplacement, distanceKm;
+    private String raisonSociale, siren, codeApe, adresse, telClient, email;
+    private int numClient, dureeDeplacement, distanceKm;
+
+    private ArrayList<Materiel> lesMateriels;
 
     public Client(int numClient, String raisonSociale, String siren, String codeApe, String adresse, String telClient, String email, int dureeDeplacement, int distanceKm) {
         this.numClient = numClient;
@@ -19,6 +23,10 @@ public class Client {
 
     public int getId() {
         return numClient;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     public String getRaisonSociale() {

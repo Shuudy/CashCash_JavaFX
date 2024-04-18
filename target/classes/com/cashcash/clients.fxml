@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cashcash.ClientController">
+   <children>
+      <TableView fx:id="table_clients" layoutX="28.0" layoutY="23.0" prefHeight="355.0" prefWidth="544.0">
+        <columns>
+            <TableColumn fx:id="col_id" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="col_socialreason" prefWidth="109.0" text="Raison Sociale" />
+            <TableColumn fx:id="col_email" prefWidth="111.0" text="Email" />
+        </columns>
+      </TableView>
+   </children>
+</AnchorPane>

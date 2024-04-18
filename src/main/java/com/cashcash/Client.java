@@ -1,4 +1,4 @@
-package models.com.cashcash;
+package com.cashcash;
 
 import java.util.ArrayList;
 

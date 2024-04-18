@@ -1,4 +1,4 @@
-package models.com.cashcash;
+package com.cashcash;
 
 public class TypeMateriel {
     private String referenceInterne, libelleTypeMateriel;

@@ -11,10 +11,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.collections.ObservableList;
 
 import javafx.util.Callback;
-import models.com.cashcash.Client;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 public class ClientController implements Initializable {    
 
@@ -54,11 +55,15 @@ public class ClientController implements Initializable {
             public TableCell<Client, Void> call(final TableColumn<Client, Void> param) {
                 final TableCell<Client, Void> cell = new TableCell<Client, Void>() {
 
-                    private final Button btn = new Button("Action");
+                    private final Button btn = new Button("XML");
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Client client = getTableView().getItems().get(getIndex());
-                            System.out.println("Client selected: " + client.getRaisonSociale());
+
+                            Alert a = new Alert(AlertType.INFORMATION);
+                            a.setHeaderText(null);
+                            a.setContentText("Fichier XML pour le client " + client.getRaisonSociale() + " créé.");
+                            a.show();
                         });
                     }
 

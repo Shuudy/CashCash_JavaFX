@@ -1,5 +1,6 @@
 package com.cashcash;
 
+import java.sql.Date;
 import java.time.LocalDate;
 
 public class Materiel {
@@ -9,6 +10,18 @@ public class Materiel {
     private String emplacement;
 
     private TypeMateriel leType;
+
+    public Materiel(int numSerie, String dateVente, double prixVente, String emplacement, TypeMateriel leType){
+        this.numSerie = numSerie;
+
+        Date sqlDate = Date.valueOf(dateVente);
+        this.dateVente = sqlDate.toLocalDate();
+
+        this.prixVente = prixVente;
+        this.emplacement = emplacement;
+
+        this.leType = leType;
+    }
 
     public String xmlMateriel(){
         String chaineMat = "<materiel numSerie=\"" + numSerie +"\">\n";

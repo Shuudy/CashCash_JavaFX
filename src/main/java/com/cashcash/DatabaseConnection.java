@@ -29,46 +29,20 @@ public class DatabaseConnection {
 	}
 	
 	public static ObservableList<Client> getDataClients() {
-		Connection conn = new DatabaseConnection().getConnection();
+		DatabaseConnection conn = new DatabaseConnection();
+		GestionMateriels gm = new GestionMateriels(conn);
 		ObservableList<Client> list = FXCollections.observableArrayList();
 		
 		try {
-			PreparedStatement ps = conn.prepareStatement("SELECT * FROM clients");
+			PreparedStatement ps = conn.getConnection().prepareStatement("SELECT * FROM clients");
 			ResultSet rs = ps.executeQuery();
 			
 			while (rs.next()) {
-
-				// On parcours les matériels du client que l'on parcours
-				PreparedStatement ps1 = conn.prepareStatement("SELECT m.id, m.saleDate, m.installationDate, m.salePrice, m.location, mt.internalRef, mt.label FROM materials m, materialstypes mt WHERE mt.internalRef=m.internalRef AND m.clientNum = ?");
-				ps1.setInt(1, rs.getInt("id"));
-				ResultSet rs1 = ps1.executeQuery();
-
-				ArrayList<Materiel> lesMateriels = new ArrayList<Materiel>();
-				while (rs1.next()) {
-					TypeMateriel tm = new TypeMateriel(rs1.getString("internalRef"), rs1.getString("label"));
-					Materiel m = new Materiel(rs1.getInt("id"), rs1.getDate("saleDate"), rs1.getDate("installationDate"), rs1.getDouble("salePrice"), rs1.getString("location"), tm);
-					lesMateriels.add(m);
-				}				
-
-				list.add(
-					new Client(
-						rs.getInt("id"),
-						rs.getString("socialReason"),
-						rs.getString("sirenNum"),
-						rs.getString("apeCode"),
-						rs.getString("address"),
-						rs.getString("phoneNumber"),
-						rs.getString("mailAddress"),
-						rs.getInt("travelTime"),
-						rs.getInt("distanceKm"),
-						lesMateriels
-					));
+				list.add(gm.getClient(rs.getInt("id")));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();	
 		}
 		return list;
 	}
-
 }
-

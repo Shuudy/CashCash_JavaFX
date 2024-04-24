@@ -24,6 +24,10 @@ public class Materiel {
         this.leType = leType;
     }
 
+    public LocalDate getDateInstallation() {
+        return dateInstallation;
+    }
+
     public String xmlMateriel(){
         String chaineMat = "<materiel numSerie=\"" + numSerie +"\">\n";
 

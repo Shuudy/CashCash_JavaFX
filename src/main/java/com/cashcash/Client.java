@@ -7,8 +7,9 @@ public class Client {
     private int numClient, dureeDeplacement, distanceKm;
 
     private ArrayList<Materiel> lesMateriels;
+    private ContratMaintenance leContrat;
 
-    public Client(int numClient, String raisonSociale, String siren, String codeApe, String adresse, String telClient, String email, int dureeDeplacement, int distanceKm, ArrayList<Materiel> lesMateriels) {
+    public Client(int numClient, String raisonSociale, String siren, String codeApe, String adresse, String telClient, String email, int dureeDeplacement, int distanceKm, ArrayList<Materiel> lesMateriels, ContratMaintenance leContrat) {
         this.numClient = numClient;
         this.raisonSociale = raisonSociale;
         this.siren = siren;
@@ -20,10 +21,15 @@ public class Client {
         this.dureeDeplacement = dureeDeplacement;
         this.distanceKm = distanceKm;
         this.lesMateriels = lesMateriels;
+        this.leContrat = leContrat;
     }
 
     public ArrayList<Materiel> getMateriels() {
         return lesMateriels;
+    }
+
+    public ContratMaintenance getContratMaintenance() {
+        return leContrat;
     }
 
     public int getId() {

@@ -28,6 +28,18 @@ public class Materiel {
         return dateInstallation;
     }
 
+    public String getLibelleTypeMateriel() {
+        return leType.getLibelleTypeMateriel();
+    }
+
+    public int getNumSerie() {
+        return numSerie;
+    }
+
+    public String getEmplacement() {
+        return emplacement;
+    }
+
     public String xmlMateriel(){
         String chaineMat = "<materiel numSerie=\"" + numSerie +"\">\n";
 

@@ -108,11 +108,9 @@ public class ClientController implements Initializable {
                     {
                         btn.setOnAction((ActionEvent event) -> {
                             Client client = getTableView().getItems().get(getIndex());
-
-                            FXMLLoader loader = new FXMLLoader(getClass().getResource("clients_materiels.fxml"));
-                            Parent root = null;
                             try {
-                                root = loader.load();
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("clients_materiels.fxml"));
+                                Parent root = loader.load();                                
 
                                 // Get the controller instance
                                 MaterielController materielController = loader.getController();

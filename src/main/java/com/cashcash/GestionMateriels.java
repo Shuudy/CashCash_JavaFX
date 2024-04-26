@@ -2,6 +2,7 @@ package com.cashcash;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
 
@@ -82,15 +83,24 @@ public class GestionMateriels {
         return null;
     }
 
-    public String xmlClient(Client unClient) {
-        Connection conn = dc.getConnection();
+    public String xmlClient(Client unClient) throws IOException {
+        
+        String xmlMatTotal ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+"\n"+"<listeMateriel>"+"\n"+"<materiels idClient=\""+ unClient.getId()+"\">\n";
 
-        try {
+        for(Materiel materiel : unClient.getMateriels()) {
+            xmlMatTotal+=materiel.xmlMateriel() + "\n";
+        }   
 
-        } catch (Exception e) {
-			e.printStackTrace();	
-		}
+        xmlMatTotal+= "</listeMateriel>\n";
 
-        new ContratMaintenance(0, null, null)
+        Fichier fichierDesMateriels = new Fichier();
+
+        fichierDesMateriels.ouvrir("materielsClient" + unClient.getId() + ".xml", "w");
+
+        fichierDesMateriels.ecrire(xmlMatTotal);
+
+        fichierDesMateriels.fermer();
+
+        return xmlMatTotal;
     }
 }

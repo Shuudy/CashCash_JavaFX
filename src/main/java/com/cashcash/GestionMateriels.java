@@ -13,6 +13,27 @@ public class GestionMateriels {
         this.dc = dc;
     }
 
+    public ArrayList<Materiel> getMateriels(int idClient) {
+        Connection conn = dc.getConnection();
+        ArrayList<Materiel> lesMateriels = new ArrayList<Materiel>();
+        try {
+            PreparedStatement ps1 = conn.prepareStatement("SELECT m.id, m.saleDate, m.installationDate, m.salePrice, m.location, mt.internalRef, mt.label FROM materials m, materialstypes mt WHERE mt.internalRef=m.internalRef AND m.clientNum = ?");
+            ps1.setInt(1, idClient);
+            ResultSet rs1 = ps1.executeQuery();
+            
+            while (rs1.next()) {
+                TypeMateriel tm = new TypeMateriel(rs1.getString("internalRef"), rs1.getString("label"));
+                Materiel m = new Materiel(rs1.getInt("id"), rs1.getDate("saleDate"), rs1.getDate("installationDate"), rs1.getDouble("salePrice"), rs1.getString("location"), tm);
+                lesMateriels.add(m);
+            }
+            
+        } catch (Exception e) {
+			e.printStackTrace();	
+		}
+
+        return lesMateriels;
+    } 
+
     public Client getClient(int id) {
         Connection conn = dc.getConnection();
 
@@ -25,16 +46,9 @@ public class GestionMateriels {
                 int clientNum = rs.getInt("id");
 
                 // On parcours les matériels du client que l'on parcours
-                PreparedStatement ps1 = conn.prepareStatement("SELECT m.id, m.saleDate, m.installationDate, m.salePrice, m.location, mt.internalRef, mt.label FROM materials m, materialstypes mt WHERE mt.internalRef=m.internalRef AND m.clientNum = ?");
-                ps1.setInt(1, clientNum);
-                ResultSet rs1 = ps1.executeQuery();
+                ArrayList<Materiel> lesMateriels = getMateriels(clientNum);
 
-                ArrayList<Materiel> lesMateriels = new ArrayList<Materiel>();
-                while (rs1.next()) {
-                    TypeMateriel tm = new TypeMateriel(rs1.getString("internalRef"), rs1.getString("label"));
-                    Materiel m = new Materiel(rs1.getInt("id"), rs1.getDate("saleDate"), rs1.getDate("installationDate"), rs1.getDouble("salePrice"), rs1.getString("location"), tm);
-                    lesMateriels.add(m);
-                }
+                System.out.println(lesMateriels);
 
                 // Contrat de maintenance
                 PreparedStatement ps2 = conn.prepareStatement("SELECT id, signatureDate, dueDate FROM maintenancecontracts WHERE clientNum = ?");

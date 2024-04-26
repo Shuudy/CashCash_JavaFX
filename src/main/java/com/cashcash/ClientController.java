@@ -44,10 +44,10 @@ public class ClientController implements Initializable {
 		list = new DatabaseConnection().getDataClients();
 		table_clients.setItems(list);
 
-        addButtonToTable();
+        addXMLToTable();
 	}
 
-    private void addButtonToTable() {
+    private void addXMLToTable() {
         TableColumn<Client, Void> colBtn = new TableColumn("Actions");
 
         Callback<TableColumn<Client, Void>, TableCell<Client, Void>> cellFactory = new Callback<TableColumn<Client, Void>, TableCell<Client, Void>>() {
@@ -60,6 +60,7 @@ public class ClientController implements Initializable {
                         btn.setOnAction((ActionEvent event) -> {
                             Client client = getTableView().getItems().get(getIndex());
 
+                            System.out.println(client.getContratMaintenance());
                             Alert a = new Alert(AlertType.INFORMATION);
                             a.setHeaderText(null);
                             a.setContentText("Fichier XML pour le client " + client.getRaisonSociale() + " créé.");

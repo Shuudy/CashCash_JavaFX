@@ -45,4 +45,20 @@ public class DatabaseConnection {
 		}
 		return list;
 	}
+
+	public static ObservableList<Materiel> getMaterielForClient(int id) {
+		DatabaseConnection conn = new DatabaseConnection();
+		GestionMateriels gm = new GestionMateriels(conn);
+		ObservableList<Materiel> list = FXCollections.observableArrayList();
+		
+		try {
+			for (Materiel unMateriel : gm.getMateriels(id)) {
+				list.add(unMateriel);
+			}			
+		
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

@@ -70,6 +70,14 @@ public class ClientController implements Initializable {
                         btn.setOnAction((ActionEvent event) -> {
                             Client client = getTableView().getItems().get(getIndex());
 
+                            try {
+                                DatabaseConnection dc = new DatabaseConnection();
+                                GestionMateriels gm = new GestionMateriels(dc);
+                                gm.xmlClient(client);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            
                             System.out.println(client.getContratMaintenance());
                             Alert a = new Alert(AlertType.INFORMATION);
                             a.setHeaderText(null);

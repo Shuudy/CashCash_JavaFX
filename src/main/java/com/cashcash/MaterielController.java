@@ -72,6 +72,9 @@ public class MaterielController implements Initializable {
             a.setHeaderText(null);
             a.setContentText("Contrat de maintenance créé avec succès pour les matériels sélectionnés !");
             a.show();
+
+            // On actualise les matériels
+            loadMaterielData();
         } else {
             Alert a = new Alert(AlertType.WARNING);
             a.setHeaderText(null);
@@ -82,10 +85,11 @@ public class MaterielController implements Initializable {
 
     private void loadMaterielData() {
         if (selectedClient != null) {
-            ObservableList<Materiel> materielList = new DatabaseConnection().getMaterielForClient(selectedClient.getId());
+            ObservableList<Materiel> materielList = new DatabaseConnection().getMaterielForClient(selectedClient.getId(), true);
             table_materiels.setItems(materielList);
 
             label_title.setText("Matériels du client " + selectedClient.getRaisonSociale());
+            button_create.setText(selectedClient.aUnContratMaintenance() ? "Ajouter au contrat" : "Créer un contrat");
         } else {
             System.out.println("selectedClient is null");
         }

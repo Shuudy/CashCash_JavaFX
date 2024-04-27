@@ -28,6 +28,12 @@ public class Client {
         return lesMateriels;
     }
 
+    public void setContratMaintenance(ContratMaintenance leContrat) {
+        if (!aUnContratMaintenance()) {
+            this.leContrat = leContrat;
+        }
+    }
+
     public ContratMaintenance getContratMaintenance() {
         return leContrat;
     }

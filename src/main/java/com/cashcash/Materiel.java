@@ -9,10 +9,11 @@ public class Materiel {
     private LocalDate dateInstallation;
     private double prixVente;
     private String emplacement;
+    private int contractNum;
 
     private TypeMateriel leType;
 
-    public Materiel(int numSerie, Date dateVente, Date dateInstallation, double prixVente, String emplacement, TypeMateriel leType){
+    public Materiel(int numSerie, Date dateVente, Date dateInstallation, double prixVente, String emplacement, TypeMateriel leType, int contractNum){
         this.numSerie = numSerie;
 
         this.dateVente = dateVente.toLocalDate();
@@ -21,7 +22,12 @@ public class Materiel {
         this.prixVente = prixVente;
         this.emplacement = emplacement;
 
+        this.contractNum = contractNum;
         this.leType = leType;
+    }
+
+    public int getContractNum() {
+        return contractNum;
     }
 
     public LocalDate getDateInstallation() {

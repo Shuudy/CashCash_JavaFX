@@ -18,13 +18,13 @@ public class GestionMateriels {
         Connection conn = dc.getConnection();
         ArrayList<Materiel> lesMateriels = new ArrayList<Materiel>();
         try {
-            PreparedStatement ps1 = conn.prepareStatement("SELECT m.id, m.saleDate, m.installationDate, m.salePrice, m.location, mt.internalRef, mt.label FROM materials m, materialstypes mt WHERE mt.internalRef=m.internalRef AND m.clientNum = ?");
+            PreparedStatement ps1 = conn.prepareStatement("SELECT m.contractNum, m.id, m.saleDate, m.installationDate, m.salePrice, m.location, mt.internalRef, mt.label FROM materials m, materialstypes mt WHERE mt.internalRef=m.internalRef AND m.clientNum = ?");
             ps1.setInt(1, idClient);
             ResultSet rs1 = ps1.executeQuery();
             
             while (rs1.next()) {
                 TypeMateriel tm = new TypeMateriel(rs1.getString("internalRef"), rs1.getString("label"));
-                Materiel m = new Materiel(rs1.getInt("id"), rs1.getDate("saleDate"), rs1.getDate("installationDate"), rs1.getDouble("salePrice"), rs1.getString("location"), tm);
+                Materiel m = new Materiel(rs1.getInt("id"), rs1.getDate("saleDate"), rs1.getDate("installationDate"), rs1.getDouble("salePrice"), rs1.getString("location"), tm, rs1.getInt("contractNum"));
                 lesMateriels.add(m);
             }
             

@@ -77,8 +77,7 @@ public class ClientController implements Initializable {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            
-                            System.out.println(client.getContratMaintenance());
+                                                   
                             Alert a = new Alert(AlertType.INFORMATION);
                             a.setHeaderText(null);
                             a.setContentText("Fichier XML pour le client " + client.getRaisonSociale() + " créé.");

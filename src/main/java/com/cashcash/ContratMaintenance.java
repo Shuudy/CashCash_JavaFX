@@ -17,6 +17,10 @@ public class ContratMaintenance {
         this.lesMaterielsAssures = new ArrayList<Materiel>();
     }
 
+    public int getNumContrat() {
+        return numContrat;
+    }
+
     public int getJoursRestants() {
         LocalDate now = LocalDate.now();
         long joursRestants = dateEcheance.until(now, ChronoUnit.DAYS);

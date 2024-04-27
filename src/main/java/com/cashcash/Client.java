@@ -32,6 +32,10 @@ public class Client {
         return leContrat;
     }
 
+    public boolean aUnContratMaintenance() {
+        return leContrat != null;
+    }
+
     public int getId() {
         return numClient;
     }

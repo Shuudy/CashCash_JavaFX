@@ -49,8 +49,6 @@ public class GestionMateriels {
                 // On parcours les matériels du client que l'on parcours
                 ArrayList<Materiel> lesMateriels = getMateriels(clientNum);
 
-                System.out.println(lesMateriels);
-
                 // Contrat de maintenance
                 PreparedStatement ps2 = conn.prepareStatement("SELECT id, signatureDate, dueDate FROM maintenancecontracts WHERE clientNum = ?");
                 ps2.setInt(1, clientNum);

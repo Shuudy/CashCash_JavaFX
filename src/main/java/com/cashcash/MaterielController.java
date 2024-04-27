@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -53,14 +54,30 @@ public class MaterielController implements Initializable {
         col_label.setCellValueFactory(new PropertyValueFactory<Materiel, String>("libelleTypeMateriel"));
         col_emplacement.setCellValueFactory(new PropertyValueFactory<Materiel, String>("emplacement"));
         col_installationdate.setCellValueFactory(new PropertyValueFactory<Materiel, LocalDate>("dateInstallation"));
+
+        table_materiels.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     @FXML
     public void handleButtonClick() {
-        Alert a = new Alert(AlertType.INFORMATION);
-        a.setHeaderText(null);
-        a.setContentText("Contrat de maintenance créé avec succès pour les matériels sélectionné !");
-        a.show();
+        ObservableList<Materiel> selectedMateriels = table_materiels.getSelectionModel().getSelectedItems();
+
+        // On vérifie si un ou plusieurs matériels est sélectionné ou non.
+        if (!selectedMateriels.isEmpty()) {           
+            for (Materiel materiel : selectedMateriels) {              
+                System.out.println("Numéro de série : " + materiel.getNumSerie());
+            }
+    
+            Alert a = new Alert(AlertType.INFORMATION);
+            a.setHeaderText(null);
+            a.setContentText("Contrat de maintenance créé avec succès pour les matériels sélectionnés !");
+            a.show();
+        } else {
+            Alert a = new Alert(AlertType.WARNING);
+            a.setHeaderText(null);
+            a.setContentText("Aucun matériel sélectionné !");
+            a.show();
+        }
     }
 
     private void loadMaterielData() {

@@ -23,5 +23,10 @@
          </font>
       </Label>
       <Button fx:id="button_create" layoutX="254.0" layoutY="361.0" mnemonicParsing="false" onMouseClicked="#handleButtonClick" text="Créer le contrat" />
+      <Label layoutX="254.0" layoutY="14.0" text="Hors contrat">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

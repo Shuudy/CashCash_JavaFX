@@ -46,6 +46,10 @@ public class Materiel {
         return emplacement;
     }
 
+    public void setContractNum(int contractNum) {
+        this.contractNum = contractNum;
+    }
+
     public String xmlMateriel(){
         String chaineMat = "<materiel numSerie=\"" + numSerie +"\">\n";
 

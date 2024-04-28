@@ -81,7 +81,7 @@ public class MaterielController implements Initializable {
 
             String textAlert;            
             if (aUnContrat) {
-                textAlert = "Matériel(s) ajouté(s) au contrat de maintenance n°" + unContrat.getNumContrat() + ".";
+                textAlert = "Matériel(s) ajouté(s) au contrat de maintenance n°" + unContrat.getNumContrat() + ".\n";
             } else {
                 textAlert = "Contrat de maintenance n°" + unContrat.getNumContrat() + " créé avec succès.\n";
             }

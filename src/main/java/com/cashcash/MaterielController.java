@@ -1,6 +1,7 @@
 package com.cashcash;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
 
@@ -59,18 +60,38 @@ public class MaterielController implements Initializable {
     }
 
     @FXML
-    public void handleButtonClick() {
+    public void handleButtonClick() throws SQLException {
         ObservableList<Materiel> selectedMateriels = table_materiels.getSelectionModel().getSelectedItems();
 
         // On vérifie si un ou plusieurs matériels est sélectionné ou non.
-        if (!selectedMateriels.isEmpty()) {           
-            for (Materiel materiel : selectedMateriels) {              
-                System.out.println("Numéro de série : " + materiel.getNumSerie());
+        if (!selectedMateriels.isEmpty()) {
+
+            GestionMateriels gm = new GestionMateriels(new DatabaseConnection());
+            boolean aUnContrat = selectedClient.aUnContratMaintenance();
+            ContratMaintenance unContrat = gm.createContratMaintenance(selectedClient);
+
+            for (Materiel materiel : selectedMateriels) {
+
+                // On affecte le matériel au contrat de maintenance
+                gm.setMaterielToContrat(materiel, unContrat);
             }
     
             Alert a = new Alert(AlertType.INFORMATION);
             a.setHeaderText(null);
-            a.setContentText("Contrat de maintenance créé avec succès pour les matériels sélectionnés !");
+
+            String textAlert;            
+            if (aUnContrat) {
+                textAlert = "Matériel(s) ajouté(s) au contrat de maintenance n°" + unContrat.getNumContrat() + ".";
+            } else {
+                textAlert = "Contrat de maintenance n°" + unContrat.getNumContrat() + " créé avec succès.\n";
+            }
+
+            textAlert += "- Matériels affectés :\n";             
+            for (Materiel materiel : selectedMateriels) {
+                textAlert += "  - Matériel n°" + materiel.getNumSerie() + "\n";
+            }
+
+            a.setContentText(textAlert);
             a.show();
 
             // On actualise les matériels

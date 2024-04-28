@@ -2,9 +2,13 @@ package com.cashcash;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class GestionMateriels {
 
@@ -33,7 +37,61 @@ public class GestionMateriels {
 		}
 
         return lesMateriels;
-    } 
+    }
+
+    public void setMaterielToContrat(Materiel materiel, ContratMaintenance contrat) {
+
+        try {
+            Connection conn = dc.getConnection();
+
+            // On met à jour le numéro du contrat du matériel
+            PreparedStatement ps = conn.prepareStatement("UPDATE materials SET contractNum = ? WHERE id = ?");
+            ps.setInt(1, contrat.getNumContrat());
+            ps.setInt(2, materiel.getNumSerie());
+            ps.executeUpdate();
+
+            // On affecte le numéro de contrat au matériel
+            materiel.setContractNum(contrat.getNumContrat());
+
+            // On ajoute le matériel au contrat
+            contrat.ajouteMateriel(materiel);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }        
+    }
+
+    public ContratMaintenance createContratMaintenance(Client client) throws SQLException {
+        ContratMaintenance unContrat = null;
+        if (!client.aUnContratMaintenance()) {
+            Connection conn = dc.getConnection();
+
+            Date signatureDate = new Date();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(signatureDate);
+            calendar.add(Calendar.YEAR, 1);
+            Date dueDate = calendar.getTime();
+            
+
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO maintenancecontracts(signatureDate, dueDate, clientNum) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            ps.setDate(1, new java.sql.Date(signatureDate.getTime()));
+            ps.setDate(2, new java.sql.Date(dueDate.getTime()));
+            ps.setInt(3, client.getId());
+
+            ps.executeUpdate();
+
+            ResultSet rs = ps.getGeneratedKeys();
+            rs.next();
+            int contratId = rs.getInt(1);
+            
+            unContrat = new ContratMaintenance(contratId, new java.sql.Date(signatureDate.getTime()), new java.sql.Date(dueDate.getTime()));
+            client.setContratMaintenance(unContrat);
+        } else {
+            unContrat = client.getContratMaintenance();
+        }
+
+        return unContrat;
+    }
 
     public Client getClient(int id) {
         Connection conn = dc.getConnection();

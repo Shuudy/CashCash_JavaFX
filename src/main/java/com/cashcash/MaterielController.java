@@ -106,7 +106,7 @@ public class MaterielController implements Initializable {
 
     private void loadMaterielData() {
         if (selectedClient != null) {
-            ObservableList<Materiel> materielList = new DatabaseConnection().getMaterielForClient(selectedClient.getId(), true);
+            ObservableList<Materiel> materielList = new DatabaseConnection().getMaterielForClient(selectedClient.getId(), false);
             table_materiels.setItems(materielList);
 
             label_title.setText("Matériels du client " + selectedClient.getRaisonSociale());

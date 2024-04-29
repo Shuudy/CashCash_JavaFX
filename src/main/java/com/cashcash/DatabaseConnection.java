@@ -11,7 +11,7 @@ import javafx.collections.ObservableList;
 
 public class DatabaseConnection {
 	
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/cashcash";
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/laravel";
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "root";
 	
@@ -53,9 +53,9 @@ public class DatabaseConnection {
 		
 		try {
 			for (Materiel unMateriel : gm.getMateriels(id)) {
-				if (contrat && unMateriel.getContractNum() == 0) {
+				if (contrat && unMateriel.getContractNum() != 0) {
 					list.add(unMateriel);
-				} else if (!contrat){
+				} else if (!contrat && unMateriel.getContractNum() == 0){
 					list.add(unMateriel);
 				}
 			}

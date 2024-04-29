@@ -51,16 +51,16 @@ public class Materiel {
     }
 
     public String xmlMateriel(){
-        String chaineMat = "<materiel numSerie=\"" + numSerie +"\">\n";
+        String chaineMat = "\t<materiel numSerie=\"" + numSerie +"\">\n";
 
-        chaineMat += "<type refInterne=\"" + leType.getReferenceInterne() + "\" libelle=\"" + leType.getLibelleTypeMateriel() + "\" />\n";
-        chaineMat += "<famille codeFamille=\"SE\" libelle=\"serveur\" />\n";
-        chaineMat += "<date_installation>" + dateInstallation.toString() + "</date_installation>\n";
-        chaineMat += "<prix_vente>" + prixVente + "</prix_vente>\n";
-        chaineMat += "<emplacement>" + emplacement + "</emplacement>\n";
-        chaineMat += "<nbJourAvantEcheance>94</nbJourAvantEcheance>\n";
+        chaineMat += "\t\t<type refInterne=\"" + leType.getReferenceInterne() + "\" libelle=\"" + leType.getLibelleTypeMateriel() + "\" />\n";
+        chaineMat += "\t\t<famille codeFamille=\"SE\" libelle=\"serveur\" />\n";
+        chaineMat += "\t\t<date_installation>" + dateInstallation.toString() + "</date_installation>\n";
+        chaineMat += "\t\t<prix_vente>" + prixVente + "</prix_vente>\n";
+        chaineMat += "\t\t<emplacement>" + emplacement + "</emplacement>\n";
+        chaineMat += "\t\t<nbJourAvantEcheance>94</nbJourAvantEcheance>\n";
 
-        chaineMat += "</materiel>";
+        chaineMat += "\t</materiel>";
 
         return chaineMat;
     }

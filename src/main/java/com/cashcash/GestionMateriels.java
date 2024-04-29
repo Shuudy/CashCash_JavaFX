@@ -1,11 +1,11 @@
 package com.cashcash;
 
+import java.io.IOException;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.io.IOException;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,19 +22,21 @@ public class GestionMateriels {
         Connection conn = dc.getConnection();
         ArrayList<Materiel> lesMateriels = new ArrayList<Materiel>();
         try {
-            PreparedStatement ps1 = conn.prepareStatement("SELECT m.contractNum, m.id, m.saleDate, m.installationDate, m.salePrice, m.location, mt.internalRef, mt.label FROM materials m, materialstypes mt WHERE mt.internalRef=m.internalRef AND m.clientNum = ?");
+            PreparedStatement ps1 = conn.prepareStatement(
+                    "SELECT m.contractNum, m.id, m.saleDate, m.installationDate, m.salePrice, m.location, mt.internalRef, mt.label FROM materials m, materialstypes mt WHERE mt.internalRef=m.internalRef AND m.clientNum = ?");
             ps1.setInt(1, idClient);
             ResultSet rs1 = ps1.executeQuery();
-            
+
             while (rs1.next()) {
                 TypeMateriel tm = new TypeMateriel(rs1.getString("internalRef"), rs1.getString("label"));
-                Materiel m = new Materiel(rs1.getInt("id"), rs1.getDate("saleDate"), rs1.getDate("installationDate"), rs1.getDouble("salePrice"), rs1.getString("location"), tm, rs1.getInt("contractNum"));
+                Materiel m = new Materiel(rs1.getInt("id"), rs1.getDate("saleDate"), rs1.getDate("installationDate"),
+                        rs1.getDouble("salePrice"), rs1.getString("location"), tm, rs1.getInt("contractNum"));
                 lesMateriels.add(m);
             }
-            
+
         } catch (Exception e) {
-			e.printStackTrace();	
-		}
+            e.printStackTrace();
+        }
 
         return lesMateriels;
     }
@@ -57,7 +59,7 @@ public class GestionMateriels {
             contrat.ajouteMateriel(materiel);
         } catch (Exception e) {
             e.printStackTrace();
-        }        
+        }
     }
 
     public ContratMaintenance createContratMaintenance(Client client) throws SQLException {
@@ -71,9 +73,10 @@ public class GestionMateriels {
             calendar.setTime(signatureDate);
             calendar.add(Calendar.YEAR, 1);
             Date dueDate = calendar.getTime();
-            
 
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO maintenancecontracts(signatureDate, dueDate, clientNum) VALUES(?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+            PreparedStatement ps = conn.prepareStatement(
+                    "INSERT INTO maintenancecontracts(signatureDate, dueDate, clientNum) VALUES(?, ?, ?)",
+                    Statement.RETURN_GENERATED_KEYS);
             ps.setDate(1, new java.sql.Date(signatureDate.getTime()));
             ps.setDate(2, new java.sql.Date(dueDate.getTime()));
             ps.setInt(3, client.getId());
@@ -83,8 +86,9 @@ public class GestionMateriels {
             ResultSet rs = ps.getGeneratedKeys();
             rs.next();
             int contratId = rs.getInt(1);
-            
-            unContrat = new ContratMaintenance(contratId, new java.sql.Date(signatureDate.getTime()), new java.sql.Date(dueDate.getTime()));
+
+            unContrat = new ContratMaintenance(contratId, new java.sql.Date(signatureDate.getTime()),
+                    new java.sql.Date(dueDate.getTime()));
             client.setContratMaintenance(unContrat);
         } else {
             unContrat = client.getContratMaintenance();
@@ -101,60 +105,68 @@ public class GestionMateriels {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
 
-            while(rs.next()) {
+            while (rs.next()) {
                 int clientNum = rs.getInt("id");
 
                 // On parcours les matériels du client que l'on parcours
                 ArrayList<Materiel> lesMateriels = getMateriels(clientNum);
 
                 // Contrat de maintenance
-                PreparedStatement ps2 = conn.prepareStatement("SELECT id, signatureDate, dueDate FROM maintenancecontracts WHERE clientNum = ?");
+                PreparedStatement ps2 = conn.prepareStatement(
+                        "SELECT id, signatureDate, dueDate FROM maintenancecontracts WHERE clientNum = ?");
                 ps2.setInt(1, clientNum);
                 ResultSet rs2 = ps2.executeQuery();
 
                 ContratMaintenance cm = null;
-                while(rs2.next()) {
+                while (rs2.next()) {
                     cm = new ContratMaintenance(rs2.getInt("id"), rs2.getDate("signatureDate"), rs2.getDate("dueDate"));
                 }
 
                 Client unClient = new Client(
-                    rs.getInt("id"),
-                    rs.getString("socialReason"),
-                    rs.getString("sirenNum"),
-                    rs.getString("apeCode"),
-                    rs.getString("address"),
-                    rs.getString("phoneNumber"),
-                    rs.getString("mailAddress"),
-                    rs.getInt("travelTime"),
-                    rs.getInt("distanceKm"),
-                    lesMateriels,
-                    cm
-                );
+                        rs.getInt("id"),
+                        rs.getString("socialReason"),
+                        rs.getString("sirenNum"),
+                        rs.getString("apeCode"),
+                        rs.getString("address"),
+                        rs.getString("phoneNumber"),
+                        rs.getString("mailAddress"),
+                        rs.getInt("travelTime"),
+                        rs.getInt("distanceKm"),
+                        lesMateriels,
+                        cm);
 
                 return unClient;
-            }            
+            }
         } catch (Exception e) {
-			e.printStackTrace();	
-		}
+            e.printStackTrace();
+        }
         return null;
     }
 
     public String xmlClient(Client unClient) throws IOException {
-        
-        String xmlMatTotal ="<?xml version=\"1.0\" encoding=\"UTF-8\"?>"+"\n"+"<listeMateriel>"+"\n"+"<materiels idClient=\""+ unClient.getId()+"\">\n";
 
-        for(Materiel materiel : unClient.getMateriels()) {
-            xmlMatTotal+=materiel.xmlMateriel() + "\n";
-        }   
+        String xmlMatTotal = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n" + "<listeMateriel>" + "\n"
+                + "<materiels idClient=\"" + unClient.getId() + "\">\n";
 
-        xmlMatTotal+= "</listeMateriel>\n";
+        // Sous contrat
+        xmlMatTotal += "\t<souContrat>\n";
+        for (Materiel materiel : dc.getMaterielForClient(unClient.getId(), true)) {
+            xmlMatTotal += materiel.xmlMateriel() + "\n";
+        }
+        xmlMatTotal += "\t</sousContrat>\n";
+
+        // Hors contrat
+        xmlMatTotal += "\t<horsContrat>\n";
+        for (Materiel materiel : dc.getMaterielForClient(unClient.getId(), false)) {
+            xmlMatTotal += materiel.xmlMateriel() + "\n";
+        }
+        xmlMatTotal += "\t</horsContrat>\n";
+
+        xmlMatTotal += "</listeMateriel>";
 
         Fichier fichierDesMateriels = new Fichier();
-
         fichierDesMateriels.ouvrir("materielsClient" + unClient.getId() + ".xml", "w");
-
         fichierDesMateriels.ecrire(xmlMatTotal);
-
         fichierDesMateriels.fermer();
 
         return xmlMatTotal;

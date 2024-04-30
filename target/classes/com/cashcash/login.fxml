@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="465.0" prefWidth="670.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.cashcash.LoginController">
+   <children>
+      <TextField fx:id="txtfield_email" layoutX="296.0" layoutY="183.0" />
+      <Button fx:id="button_submit" layoutX="382.0" layoutY="277.0" mnemonicParsing="false" onMouseClicked="#handleButtonAuth" prefHeight="25.0" prefWidth="62.0" text="Valider" />
+      <Label layoutX="258.0" layoutY="96.0" text="Authentification">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="txtfield_password" layoutX="296.0" layoutY="227.0" />
+      <Label layoutX="199.0" layoutY="187.0" text="Adresse e-mail:" />
+      <Label layoutX="202.0" layoutY="231.0" text="Mot de passe:" />
+      <Label fx:id="label_msg" alignment="CENTER" layoutX="184.0" layoutY="134.0" prefHeight="17.0" prefWidth="302.0" textFill="RED" />
+   </children>
+</AnchorPane>

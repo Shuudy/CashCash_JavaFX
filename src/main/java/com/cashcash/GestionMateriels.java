@@ -150,9 +150,14 @@ public class GestionMateriels {
 
         // Sous contrat
         xmlMatTotal += "\t<souContrat>\n";
-        for (Materiel materiel : dc.getMaterielForClient(unClient.getId(), true)) {
-            xmlMatTotal += materiel.xmlMateriel() + "\n";
+        ContratMaintenance ct = unClient.getContratMaintenance();
+        if (ct != null) {
+            int jourRestant = ct.getJoursRestants();
+            for (Materiel materiel : dc.getMaterielForClient(unClient.getId(), true)) {
+                xmlMatTotal += materiel.xmlMateriel(jourRestant) + "\n";
+            }
         }
+
         xmlMatTotal += "\t</sousContrat>\n";
 
         // Hors contrat

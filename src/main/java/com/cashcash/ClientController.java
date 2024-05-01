@@ -23,6 +23,9 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 
+/**
+ * Contrôleur pour la vue clients.fxml, gérant l'affichage des clients et leurs actions.
+ */
 public class ClientController implements Initializable {    
 
     @FXML
@@ -57,6 +60,9 @@ public class ClientController implements Initializable {
         addContratButtonToTable();
 	}
 
+    /**
+     * Ajoute un bouton "XML" à chaque ligne de la table pour générer un fichier XML pour le client correspondant.
+     */
     private void addXMLButtonToTable() {
         TableColumn<Client, Void> colBtn = new TableColumn("Actions");
 
@@ -103,6 +109,9 @@ public class ClientController implements Initializable {
         table_clients.getColumns().add(colBtn);
     }
 
+    /**
+     * Ajoute un bouton "Contrat" à chaque ligne de la table pour afficher les matériels hors contrat du client correspondant.
+     */
     private void addContratButtonToTable() {
         TableColumn<Client, Void> colBtn = new TableColumn("Actions");
 

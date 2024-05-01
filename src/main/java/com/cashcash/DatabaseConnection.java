@@ -4,19 +4,26 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * Gère la connexion à la base de données et fournit des méthodes pour récupérer des données.
+ */
 public class DatabaseConnection {
 	
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/laravel";
+	private static final String DB_URL = "jdbc:mysql://localhost:3306/cashcash";
     private static final String DB_USERNAME = "root";
     private static final String DB_PASSWORD = "root";
 	
 	private Connection databaseLink;
 	
+	/**
+     * Établit une connexion à la base de données.
+     *
+     * @return La connexion à la base de données.
+     */
 	public Connection getConnection() {
 		
 		try {
@@ -28,6 +35,11 @@ public class DatabaseConnection {
 		return databaseLink;
 	}
 	
+	/**
+     * Récupère les données des clients depuis la base de données.
+     *
+     * @return Une liste observable des clients.
+     */
 	public static ObservableList<Client> getDataClients() {
 		DatabaseConnection conn = new DatabaseConnection();
 		GestionMateriels gm = new GestionMateriels(conn);
@@ -46,6 +58,13 @@ public class DatabaseConnection {
 		return list;
 	}
 
+	/**
+     * Récupère les matériels associés à un client depuis la base de données.
+     *
+     * @param id       L'identifiant du client.
+     * @param contrat  Indique si seuls les matériels avec contrat doivent être récupérés.
+     * @return Une liste observable des matériels associés au client.
+     */
 	public static ObservableList<Materiel> getMaterielForClient(int id, boolean contrat) {
 		DatabaseConnection conn = new DatabaseConnection();
 		GestionMateriels gm = new GestionMateriels(conn);

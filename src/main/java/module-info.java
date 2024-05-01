@@ -4,6 +4,7 @@ module com.cashcash {
     requires java.sql;
     requires transitive javafx.graphics;
     requires spring.security.crypto;
+    requires itextpdf;
 
     opens com.cashcash to javafx.fxml;
     exports com.cashcash;

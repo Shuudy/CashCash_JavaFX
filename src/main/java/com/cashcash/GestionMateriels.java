@@ -21,14 +21,28 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
 
+/**
+ * Gère les opérations liées aux matériels et aux contrats de maintenance.
+ */
 public class GestionMateriels {
 
     private DatabaseConnection dc;
 
+    /**
+     * Initialise un objet GestionMateriels avec une connexion à la base de données.
+     *
+     * @param dc La connexion à la base de données.
+     */
     public GestionMateriels(DatabaseConnection dc) {
         this.dc = dc;
     }
 
+    /**
+     * Récupère les matériels associés à un client à partir de la base de données.
+     *
+     * @param idClient L'identifiant du client.
+     * @return Une liste d'objets Materiel associés au client.
+     */
     public ArrayList<Materiel> getMateriels(int idClient) {
         Connection conn = dc.getConnection();
         ArrayList<Materiel> lesMateriels = new ArrayList<Materiel>();
@@ -52,6 +66,12 @@ public class GestionMateriels {
         return lesMateriels;
     }
 
+    /**
+     * Associe un matériel à un contrat de maintenance.
+     *
+     * @param materiel Le matériel à associer au contrat.
+     * @param contrat  Le contrat de maintenance auquel associer le matériel.
+     */
     public void setMaterielToContrat(Materiel materiel, ContratMaintenance contrat) {
 
         try {
@@ -73,6 +93,13 @@ public class GestionMateriels {
         }
     }
 
+    /**
+     * Crée un nouveau contrat de maintenance pour un client s'il n'en a pas déjà un.
+     *
+     * @param client Le client pour lequel créer le contrat de maintenance.
+     * @return Le nouveau contrat de maintenance créé, ou le contrat de maintenance déjà existant.
+     * @throws SQLException En cas d'erreur lors de l'interaction avec la base de données.
+     */
     public ContratMaintenance createContratMaintenance(Client client) throws SQLException {
         ContratMaintenance unContrat = null;
         if (!client.aUnContratMaintenance()) {
@@ -108,6 +135,12 @@ public class GestionMateriels {
         return unContrat;
     }
 
+    /**
+     * Récupère les informations d'un client à partir de la base de données.
+     *
+     * @param id L'identifiant du client.
+     * @return Le client correspondant à l'identifiant spécifié.
+     */
     public Client getClient(int id) {
         Connection conn = dc.getConnection();
 
@@ -154,6 +187,13 @@ public class GestionMateriels {
         return null;
     }
 
+    /**
+     * Génère une représentation XML des matériels d'un client et enregistre le fichier XML.
+     *
+     * @param unClient Le client pour lequel générer la représentation XML des matériels.
+     * @return La représentation XML des matériels du client.
+     * @throws IOException En cas d'erreur lors de la lecture ou de l'écriture du fichier XML.
+     */
     public String xmlClient(Client unClient) throws IOException {
 
         String xmlMatTotal = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" + "\n" + "<listeMateriel>" + "\n"

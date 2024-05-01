@@ -39,6 +39,15 @@ public class ContratMaintenance {
     }
 
     /**
+     * Obtient La date d'échéance du contrat de maintenance.
+     *
+     * @return La date d'échéance du contrat de maintenance.
+     */
+    public LocalDate getDateEcheance() {
+        return dateEcheance;
+    }
+
+    /**
      * Calcule le nombre de jours restants avant l'échéance du contrat de maintenance.
      *
      * @return Le nombre de jours restants avant l'échéance.

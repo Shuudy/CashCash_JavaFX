@@ -228,17 +228,23 @@ public class GestionMateriels {
         return xmlMatTotal;
     }
 
+     /**
+     * Génère une représentation PDF et enregistre le fichier PDF.
+     *
+     * @param client Le client pour lequel générer la représentation PDF.
+     * @return La représentation PDF du message de relance du client.
+     */
     public void pdfClient(Client client) {
-        String space = "\n\n\n\n\n\n\n\n\n\n\n";
+        String space = "\n\n\n\n\n\n\n";
         String sp = "\n\n";
-        String text = "Nous vous informons que votre contrat avec CashCash arrivera à expiration le" + client.getContratMaintenance() + ". \nVeuillez envisager de renouveler votre contrat pour continuer à profiter de nos services.\nPour toute question ou assistance, n'hésitez pas à nous contacter.\n";
+        String text = "\tNous vous informons que votre contrat avec CashCash arrivera à expiration le " + client.getContratMaintenance().getDateEcheance() + ". \nVeuillez envisager de renouveler votre contrat pour continuer à profiter de nos services.\nPour toute question ou assistance, n'hésitez pas à nous contacter.\n\nCordialement,";
         Document document = new Document();
         try {
             PdfWriter writer = PdfWriter.getInstance(document,
                     new FileOutputStream("relancecli" + client.getId() + ".pdf"));
             document.open();
             document.add(new Paragraph(client.getRaisonSociale() + "\nID => " + client.getId() + "\nMail => " + client.getEmail()));
-            document.add(new Paragraph(space + "Sujet: Relance contrat de maintenance" + sp + ""));
+            document.add(new Paragraph(space + "Sujet: Relance contrat de maintenance" + sp + text));
             document.close();
             writer.close();
         } catch (DocumentException e) {

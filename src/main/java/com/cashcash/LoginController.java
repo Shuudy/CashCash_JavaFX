@@ -37,7 +37,7 @@ public class LoginController {
 
         if (!email.isEmpty() && !password.isEmpty()) {
             Connection cn = new DatabaseConnection().getConnection();
-            PreparedStatement ps = cn.prepareStatement("SELECT lastName, firstName, password FROM employees WHERE mailAddress = ?");
+            PreparedStatement ps = cn.prepareStatement("SELECT lastName, firstName, password FROM employees WHERE mailAddress = ? AND id NOT IN (SELECT id FROM technicians)");
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
 

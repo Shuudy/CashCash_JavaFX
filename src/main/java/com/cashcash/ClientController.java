@@ -133,13 +133,8 @@ public class ClientController implements Initializable {
                             try {
                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("clients_materiels.fxml"));
                                 Parent root = loader.load();                                
-
                                 
-                                MaterielController materielController = loader.getController();
-                                GestionMateriels gs = new GestionMateriels(new DatabaseConnection());
-                                gs.pdfClient(client);
-
-                                
+                                MaterielController materielController = loader.getController();                           
                                 materielController.setSelectedClient(client);
 
                                 Stage stage = new Stage();

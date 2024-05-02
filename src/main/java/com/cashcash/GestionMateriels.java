@@ -1,14 +1,25 @@
 package com.cashcash;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 /**
  * Gère les opérations liées aux matériels et aux contrats de maintenance.
@@ -215,5 +226,31 @@ public class GestionMateriels {
         fichierDesMateriels.fermer();
 
         return xmlMatTotal;
+    }
+
+     /**
+     * Génère une représentation PDF et enregistre le fichier PDF.
+     *
+     * @param client Le client pour lequel générer la représentation PDF.
+     * @return La représentation PDF du message de relance du client.
+     */
+    public void pdfClient(Client client) {
+        String space = "\n\n\n\n\n\n\n";
+        String sp = "\n\n";
+        String text = "\tNous vous informons que votre contrat avec CashCash arrivera à expiration le " + client.getContratMaintenance().getDateEcheance() + ". \nVeuillez envisager de renouveler votre contrat pour continuer à profiter de nos services.\nPour toute question ou assistance, n'hésitez pas à nous contacter.\n\nCordialement,";
+        Document document = new Document();
+        try {
+            PdfWriter writer = PdfWriter.getInstance(document,
+                    new FileOutputStream("relancecli" + client.getId() + ".pdf"));
+            document.open();
+            document.add(new Paragraph(client.getRaisonSociale() + "\nID => " + client.getId() + "\nMail => " + client.getEmail()));
+            document.add(new Paragraph(space + "Sujet: Relance contrat de maintenance" + sp + text));
+            document.close();
+            writer.close();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }

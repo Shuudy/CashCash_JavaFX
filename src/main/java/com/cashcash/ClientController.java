@@ -2,6 +2,8 @@ package com.cashcash;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
 
 import javafx.fxml.FXML;
@@ -11,6 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import javafx.util.Callback;
@@ -39,6 +42,9 @@ public class ClientController implements Initializable {
 
     @FXML
     private TableView<Client> table_clients;
+
+    @FXML
+    private Button button_relance;
 
     @FXML
     private Label label_title;
@@ -162,5 +168,23 @@ public class ClientController implements Initializable {
 
         colBtn.setCellFactory(cellFactory);
         table_clients.getColumns().add(colBtn);
+    }
+
+    @FXML
+    public void handleRelanceClick() {
+        DatabaseConnection conn = new DatabaseConnection();
+		GestionMateriels gm = new GestionMateriels(conn);
+		
+		try {
+			PreparedStatement ps = conn.getConnection().prepareStatement("SELECT c.id FROM clients c, maintenancecontracts mc WHERE c.id=mc.clientNum AND (DATEDIFF(mc.dueDate, NOW())/30) <= 3");
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+                Client client = gm.getClient(rs.getInt("id"));
+                gm.pdfClient(client);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();	
+		}
     }
 }

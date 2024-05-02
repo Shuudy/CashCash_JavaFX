@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -37,5 +38,6 @@
             <Font size="22.0" />
          </font>
       </Label>
+      <Button fx:id="button_relance" layoutX="50.0" layoutY="39.0" mnemonicParsing="false" onMouseClicked="#handleRelanceClick" prefHeight="25.0" prefWidth="130.0" text="Relance client" />
    </children>
 </AnchorPane>

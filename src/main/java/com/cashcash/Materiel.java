@@ -107,7 +107,7 @@ public class Materiel {
         String chaineMat = "\t<materiel numSerie=\"" + numSerie +"\">\n";
 
         chaineMat += "\t\t<type refInterne=\"" + leType.getReferenceInterne() + "\" libelle=\"" + leType.getLibelleTypeMateriel() + "\" />\n";
-        chaineMat += "\t\t<famille codeFamille=\"SE\" libelle=\"serveur\" />\n";
+        chaineMat += "\t\t<famille codeFamille=\"" + leType.getLaFamille().getCodeFamille() + "\" libelle=\"" + leType.getLaFamille().getLibelleFamille() + "\" />\n";
         chaineMat += "\t\t<date_installation>" + dateInstallation.toString() + "</date_installation>\n";
         chaineMat += "\t\t<prix_vente>" + prixVente + "</prix_vente>\n";
         chaineMat += "\t\t<emplacement>" + emplacement + "</emplacement>\n";
@@ -127,7 +127,7 @@ public class Materiel {
         String chaineMat = "\t<materiel numSerie=\"" + numSerie +"\">\n";
 
         chaineMat += "\t\t<type refInterne=\"" + leType.getReferenceInterne() + "\" libelle=\"" + leType.getLibelleTypeMateriel() + "\" />\n";
-        chaineMat += "\t\t<famille codeFamille=\"SE\" libelle=\"serveur\" />\n";
+        chaineMat += "\t\t<famille codeFamille=\"" + leType.getLaFamille().getCodeFamille() + "\" libelle=\"" + leType.getLaFamille().getLibelleFamille() + "\" />\n";
         chaineMat += "\t\t<date_installation>" + dateInstallation.toString() + "</date_installation>\n";
         chaineMat += "\t\t<prix_vente>" + prixVente + "</prix_vente>\n";
         chaineMat += "\t\t<emplacement>" + emplacement + "</emplacement>\n";

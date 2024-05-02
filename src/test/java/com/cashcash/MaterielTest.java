@@ -58,7 +58,7 @@ public class MaterielTest {
             Date.valueOf(LocalDate.now()), // Date d'installation
             1000.0, // Prix de vente
             "Emplacement test", // Emplacement
-            new TypeMateriel("refInterneTest", "libelleTest"), // Type de matériel
+            new TypeMateriel("refInterneTest", "libelleTest", new Famille("SE", "serveur")), // Type de matériel
             9876 // Numéro de contrat
         );
     }

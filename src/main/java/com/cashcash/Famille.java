@@ -18,4 +18,22 @@ public class Famille {
         this.codeFamille = codeFamille;
         this.libelleFamille = libelleFamille;
     }
+
+    /**
+     * Obtient le code de la famille.
+     *
+     * @return Le code de la famille.
+     */
+    public String getCodeFamille(){
+        return this.codeFamille;
+    }
+
+    /**
+     * Obtient le libelle de la famille.
+     *
+     * @return Le libelle de la famille.
+     */
+    public String getLibelleFamille() {
+        return this.libelleFamille;
+    }
 }
